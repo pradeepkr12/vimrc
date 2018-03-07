@@ -9,14 +9,10 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'tpope/vim-fugitive'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'scrooloose/nerdtree'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'vim-airline/vim-airline'
-Plugin 'tpope/vim-surround' 
-Plugin 'easymotion/vim-easymotion'
 Plugin 'vimwiki/vimwiki'
 Plugin 'haya14busa/incsearch.vim'
 Plugin 'crusoexia/vim-dracula'
@@ -24,12 +20,17 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'vim-scripts/tComment'
 Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdcommenter'
-
+Plugin 'lygaret/autohighlight.vim'
+Plugin 'tpope/vim-surround'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'francoiscabrol/ranger.vim'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
+" set status line to right
+
 
 "Plugin 'haya14busa/incsearch.vim'
 map / <Plug>(incsearch-forward)
@@ -136,6 +137,7 @@ nnoremap <leader>rn :set relativenumber!<cr>
 nnoremap <leader>ev :split $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 inoremap jk <esc>
+inoremap JK <esc>
 
 nmap H 0
 nmap L $
@@ -152,33 +154,21 @@ set runtimepath^=~/.vim/bundle/ctrlp.vim
 
 
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " Linux/MacOSX
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-let g:ctrlp_custom_ignore = {
-	\ 'dir':  '\v[\/]\.(git|hg|svn)$',
-	\ 'file': '\v\.(exe|so|dll)$',
-	\ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
-	\ }
-
-let g:ctrlp_user_command = 'find %s -type f'        " MacOSX/Linux
-
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
-let g:ctrlp_user_command = ['.hg', 'hg --cwd %s locate -I .']
 
 " The Silver Searcher
-if executable('ag')
-  " Use ag over grep
-  set grepprg=ag\ --nogroup\ --nocolor
+"if executable('ag')
+  "" Use ag over grep
+  "set grepprg=ag\ --nogroup\ --nocolor
 
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  "" Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  "let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
-endif
+  "" ag is fast enough that CtrlP doesn't need to cache
+  "let g:ctrlp_use_caching = 0
+"endif
 
 " bind \ (backward slash) to grep shortcut
-command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
+"command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
 
 " toggle between buffers
 nnoremap <leader>bb :CtrlPBuffer<cr>
