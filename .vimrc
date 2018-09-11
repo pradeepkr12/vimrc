@@ -191,3 +191,23 @@ nmap <F6> :NERDTreeToggle<CR>
 hi Comment ctermfg=LightBlue
 " selecting the matching brace
 noremap % v%
+" Map Ctrl-Backspace to delete the previous word in insert mode.
+:imap <C-BS> <C-W>
+noremap! <C-BS> <C-w>
+noremap! <C-h> <C-w>
+" noh problem, use f12 to toggle it
+map  <F12> :set hls!<CR>
+imap <F12> <ESC>:set hls!<CR>a
+vmap <F12> <ESC>:set hls!<CR>gv
+" close pc
+map  <F10> :pc<CR>
+imap <F10> <ESC>:pc<CR>a
+vmap <F10> <ESC>:pc<CR>gv
+" move to next buffer
+map  <F7> :bn<CR>
+imap <F7> <ESC>:bn<CR>a
+vmap <F7> <ESC>:bn<CR>gv
+" move to next buffer
+map  <F8> :bp<CR>
+imap <F8> <ESC>:bp<CR>a
+vmap <F8> <ESC>:bp<CR>gv
