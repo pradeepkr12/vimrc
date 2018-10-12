@@ -204,10 +204,20 @@ map  <F10> :pc<CR>
 imap <F10> <ESC>:pc<CR>a
 vmap <F10> <ESC>:pc<CR>gv
 " move to next buffer
-map  <F7> :bn<CR>
-imap <F7> <ESC>:bn<CR>a
-vmap <F7> <ESC>:bn<CR>gv
+map  <F9> :bn<CR>
+imap <F9> <ESC>:bn<CR>a
+vmap <F9> <ESC>:bn<CR>gv
 " move to next buffer
 map  <F8> :bp<CR>
 imap <F8> <ESC>:bp<CR>a
 vmap <F8> <ESC>:bp<CR>gv
+
+" page up 
+map  <F3> <C-b>
+imap <F3> <C-b>
+vmap <F3> <C-b>
+
+" page down
+map  <F4> <C-f>
+imap <F4> <C-f>
+vmap <F4> <C-f>
