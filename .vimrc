@@ -221,3 +221,10 @@ vmap <F3> <C-b>
 map  <F4> <C-f>
 imap <F4> <C-f>
 vmap <F4> <C-f>
+
+" vim airline
+" Enable the list of buffers
+let g:airline#extensions#tabline#enabled = 1
+
+" Show just the filename
+let g:airline#extensions#tabline#fnamemod = ':t'
