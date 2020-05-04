@@ -9,6 +9,8 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
+Plugin 'Vimjas/vim-python-pep8-indent'
+Plugin 'jeetsukumaran/vim-pythonsense'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'tpope/vim-fugitive'
 Plugin 'Valloric/YouCompleteMe'
@@ -17,7 +19,7 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'vimwiki/vimwiki'
 Plugin 'haya14busa/incsearch.vim'
 Plugin 'crusoexia/vim-dracula'
-Plugin 'altercation/vim-colors-solarized'
+"Plugin 'altercation/vim-colors-solarized'
 Plugin 'vim-scripts/tComment'
 Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdcommenter'
@@ -25,7 +27,21 @@ Plugin 'lygaret/autohighlight.vim'
 Plugin 'tpope/vim-surround'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'francoiscabrol/ranger.vim'
-Plugin 'Asheq/close-buffers.vim'
+Plugin 'craigemery/vim-autotag'
+Plugin 'NLKNguyen/papercolor-theme'
+Plugin 'jiangmiao/auto-pairs'
+Plugin 'majutsushi/tagbar'
+Plugin 'python-mode/python-mode'
+
+" fix for jk not working
+if ! has('gui_running')
+  set ttimeoutlen=10
+  augroup FastEscape
+    autocmd!
+    au InsertEnter * set timeoutlen=0
+    au InsertLeave * set timeoutlen=1000
+  augroup END
+endif
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -33,13 +49,16 @@ filetype plugin indent on    " required
 "filetype plugin on
 " set status line to right
 
-
+set encoding=utf-8
 "Plugin 'haya14busa/incsearch.vim'
 map / <Plug>(incsearch-forward)
 map ? <Plug>(incsearch-backward)
+" set theme 
+set background=dark
+colorscheme solarized
 
 let g:ycm_python_binary_path = 'python'
-set clipboard=unnamedplus
+set clipboard=unnamed
 "easy motion 
 let g:EasyMotion_do_mapping = 0 " Disable default mappings
 
@@ -63,7 +82,6 @@ set directory=~/.vim/tmp
 
 syntax enable
 set background=dark
-colorscheme solarized
 let g:solarized_termtrans = 1
 let g:solarized_termcolors=256
 set t_Co=256   
@@ -140,6 +158,8 @@ nnoremap <leader>ev :split $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 inoremap jk <esc>
 inoremap JK <esc>
+imap jk <Esc>
+
 
 nmap H 0
 nmap L $
@@ -147,13 +167,8 @@ nmap L $
 vmap H 0
 vmap L $
 
-"command! Wfi split ~/vimwiki/workflow.wiki
-"command! Ideas split ~/vimwiki/ideas.wiki
-
-"nnoremap <leader>c $a     #
 
 set runtimepath^=~/.vim/bundle/ctrlp.vim
-
 
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " Linux/MacOSX
 
@@ -195,14 +210,14 @@ noremap % v%
 :imap <C-BS> <C-W>
 noremap! <C-BS> <C-w>
 noremap! <C-h> <C-w>
-" noh problem, use f12 to toggle it
-map  <F12> :set hls!<CR>
-imap <F12> <ESC>:set hls!<CR>a
-vmap <F12> <ESC>:set hls!<CR>gv
+" noh problem, use f10 to toggle it
+map  <F10> :set hls!<CR>
+imap <F10> <ESC>:set hls!<CR>a
+vmap <F10> <ESC>:set hls!<CR>gv
 " close pc
-map  <F10> :pc<CR>
-imap <F10> <ESC>:pc<CR>a
-vmap <F10> <ESC>:pc<CR>gv
+map  <F12> :pc<CR>
+imap <F12> <ESC>:pc<CR>a
+vmap <F12> <ESC>:pc<CR>gv
 " move to next buffer
 map  <F9> :bn<CR>
 imap <F9> <ESC>:bn<CR>a
@@ -213,14 +228,14 @@ imap <F8> <ESC>:bp<CR>a
 vmap <F8> <ESC>:bp<CR>gv
 
 " page up 
-map  <F3> <C-b>
-imap <F3> <C-b>
-vmap <F3> <C-b>
+map  <F4> <C-b>
+imap <F4> <C-b>
+vmap <F4> <C-b>
 
 " page down
-map  <F4> <C-f>
-imap <F4> <C-f>
-vmap <F4> <C-f>
+map  <F3> <C-f>
+imap <F3> <C-f>
+vmap <F3> <C-f>
 
 " vim airline
 " Enable the list of buffers
@@ -228,3 +243,9 @@ let g:airline#extensions#tabline#enabled = 1
 
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
+set tags=tags
+set guifont=Monaco:h14
+" ctags setting
+nnoremap <leader>. :CtrlPTag<cr>
+nnoremap <silent> <Leader>b :TagbarToggle<CR>
+map <C-]> <C-T>
