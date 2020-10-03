@@ -1,6 +1,6 @@
 set nocompatible              " be iMproved, required
-filetype off                  " required
-
+"filetype off                  " required
+filetype plugin on
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -9,11 +9,16 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
+Plugin 'JamshedVesuna/vim-markdown-preview'
+Plugin 'dkarter/bullets.vim'
 Plugin 'Vimjas/vim-python-pep8-indent'
 Plugin 'jeetsukumaran/vim-pythonsense'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'tpope/vim-fugitive'
-Plugin 'Valloric/YouCompleteMe'
+Plugin 'davidhalter/jedi-vim'
+Plugin 'mileszs/ack.vim'
+Plugin 'ervandew/supertab'
+Plugin 'jpalardy/vim-slime'
 Plugin 'scrooloose/nerdtree'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vimwiki/vimwiki'
@@ -27,12 +32,31 @@ Plugin 'lygaret/autohighlight.vim'
 Plugin 'tpope/vim-surround'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'francoiscabrol/ranger.vim'
-Plugin 'craigemery/vim-autotag'
+"Plugin 'craigemery/vim-autotag'
 Plugin 'NLKNguyen/papercolor-theme'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'majutsushi/tagbar'
 Plugin 'python-mode/python-mode'
+Plugin 'heavenshell/vim-pydocstring'
+Plugin 'fs111/pydoc.vim'
+Plugin 'zivyangll/git-blame.vim'
+Plugin 'ambv/black'
 
+" configurations
+let mapleader = ','
+" select in visual mode and replace
+vnoremap <C-r> "hy:%s/<C-r>h//g<left><left>
+" ysw' for putting quotes in a selected word
+" for seeing the gitblame
+nnoremap <Leader>s :<C-u>call gitblame#echo()<CR>
+" jedi configs
+let g:jedi#auto_initialization = 0
+let g:jedi#auto_vim_configuration = 0
+let g:pymode_rope = 0
+
+
+" pydocstring
+let g:pydocstring_formatter = 'numpy'
 " fix for jk not working
 if ! has('gui_running')
   set ttimeoutlen=10
@@ -142,6 +166,8 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 let g:syntastic_python_checkers = ['flake8', 'pep8', 'pyflakes', 'pylint']
+let g:syntastic_python_flake8_args='--ignore=E502,E302,W0401'
+
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 2
 let g:syntastic_check_on_open = 1
@@ -151,7 +177,6 @@ set noswapfile
 
 let g:airline#extensions#tabline#enabled = 1
 
-let mapleader = ','
 
 nnoremap <leader>rn :set relativenumber!<cr>
 nnoremap <leader>ev :split $MYVIMRC<cr>
@@ -202,6 +227,8 @@ vnoremap <S-Tab> <gv
 " code folding
 set foldmethod=indent
 nmap <F6> :NERDTreeToggle<CR>
+map <C-n> :NERDTreeToggle<cr>
+
 " chaning the color of comment line
 hi Comment ctermfg=LightBlue
 " selecting the matching brace
@@ -248,4 +275,48 @@ set guifont=Monaco:h14
 " ctags setting
 nnoremap <leader>. :CtrlPTag<cr>
 nnoremap <silent> <Leader>b :TagbarToggle<CR>
-map <C-]> <C-T>
+"map <C-]> <C-T>
+" making bold text
+set concealcursor=n
+set conceallevel=3
+hi Asterisks NONE
+hi AsteriskBold  cterm=bold gui=bold
+syn match Asterisks contained "**" conceal
+syn match AsteriskBold "\\\@<!\*\*[^"*|]\+\*\*" contains=Asterisks
+
+" markdown setting
+let vim_markdown_preview_github=1
+" ag search integration
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+
+" quick save 
+map <Esc><Esc> :w<CR>
+inoremap <C-s> <esc>:w<cr>                 " save files
+nnoremap <C-s> :w<cr>
+inoremap <C-d> <esc>:wq!<cr>               " save and exit
+nnoremap <C-d> :wq!<cr>
+inoremap <C-q> <esc>:qa!<cr>               " quit discarding changes
+nnoremap <C-q> :qa!<cr>
+
+" vim-slime
+let g:slime_target = "tmux"
+let g:slime_paste_file = "$HOME/.slime_paste"
+let g:slime_default_config = {"socket_name": "default", "target_pane": "1"}
+nmap ss <Plug>SlimeLineSend
+"nmap sc <Plug>SlimeSendCell
+nmap sr <Plug>SlimeParagraphSend
+"nmap sf <Plug>SlimeConfig
+let g:slime_python_ipython = 1
+" fugitive git bindings
+nnoremap <Leader>gs :Gstatus<CR>
+nnoremap <Leader>gd :Gdiff<CR>
+nnoremap <Leader>gb :Gblame<CR>
+nnoremap <Leader>gh :Glog<CR>
+nnoremap <Leader>gH :Glog<CR>:set nofoldenable<CR>
+nnoremap <Leader>gr :Gread<CR>
+nnoremap <Leader>gw :Gwrite<CR>
+nnoremap <Leader>gp :Git push<CR>
+" close buffer short cut
+nnoremap <leader>q :bd<CR>
