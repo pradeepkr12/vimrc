@@ -15,17 +15,17 @@ Plugin 'Vimjas/vim-python-pep8-indent'
 Plugin 'jeetsukumaran/vim-pythonsense'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'tpope/vim-fugitive'
+Plugin 'airblade/vim-gitgutter'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'mileszs/ack.vim'
 Plugin 'ervandew/supertab'
 Plugin 'jpalardy/vim-slime'
 Plugin 'scrooloose/nerdtree'
-Plugin 'vim-airline/vim-airline'
 Plugin 'vimwiki/vimwiki'
 Plugin 'haya14busa/incsearch.vim'
 Plugin 'crusoexia/vim-dracula'
-"Plugin 'altercation/vim-colors-solarized'
-Plugin 'vim-scripts/tComment'
+Plugin 'altercation/vim-colors-solarized'
+"Plugin 'vim-scripts/tComment'
 Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'lygaret/autohighlight.vim'
@@ -33,14 +33,16 @@ Plugin 'tpope/vim-surround'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'francoiscabrol/ranger.vim'
 "Plugin 'craigemery/vim-autotag'
-Plugin 'NLKNguyen/papercolor-theme'
+"Plugin 'vim-airline/vim-airline'
+"Plugin 'vim-airline/vim-airline-themes'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'majutsushi/tagbar'
-Plugin 'python-mode/python-mode'
+"Plugin 'python-mode/python-mode'
 Plugin 'heavenshell/vim-pydocstring'
 Plugin 'fs111/pydoc.vim'
 Plugin 'zivyangll/git-blame.vim'
-Plugin 'ambv/black'
+Plugin 'mg979/vim-visual-multi'
+"Plugin 'sheerun/vim-polyglot'
 
 " configurations
 let mapleader = ','
@@ -53,7 +55,28 @@ nnoremap <Leader>s :<C-u>call gitblame#echo()<CR>
 let g:jedi#auto_initialization = 0
 let g:jedi#auto_vim_configuration = 0
 let g:pymode_rope = 0
+let g:pymode_python = 'python3'
 
+let g:jedi#goto_command = "<leader>d"
+let g:jedi#goto_assignments_command = "<leader>g"
+let g:jedi#goto_stubs_command = "<leader>s"
+let g:jedi#goto_definitions_command = ""
+let g:jedi#documentation_command = "K"
+let g:jedi#usages_command = "<leader>n"
+let g:jedi#completions_command = "<C-Space>"
+let g:jedi#rename_command = "<leader>r"
+
+
+" theme
+set t_Co=256
+let g:solarized_termtrans = 1
+let g:solarized_termcolors=256
+"set background=dark
+"colorscheme solarized
+
+" textwrap
+set tw=80
+set fo+=t
 
 " pydocstring
 let g:pydocstring_formatter = 'numpy'
@@ -74,13 +97,8 @@ filetype plugin indent on    " required
 " set status line to right
 
 set encoding=utf-8
-"Plugin 'haya14busa/incsearch.vim'
-map / <Plug>(incsearch-forward)
-map ? <Plug>(incsearch-backward)
-" set theme 
-set background=dark
-colorscheme solarized
 
+syntax enable
 let g:ycm_python_binary_path = 'python'
 set clipboard=unnamed
 "easy motion 
@@ -103,20 +121,6 @@ map <Leader>k <Plug>(easymotion-k)
 " store backup and swp files in these dirs to not clutter working dir
 set backupdir=~/.vim/backup
 set directory=~/.vim/tmp
-
-syntax enable
-set background=dark
-let g:solarized_termtrans = 1
-let g:solarized_termcolors=256
-set t_Co=256   
-let g:solarized_visibility = "high"
-let g:solarized_contrast = "high"
-if has('gui_running')
-    set background=light
-else
-    set background=dark
-endif
-
 
 "Scroll by mouse
 set mouse=a
@@ -198,18 +202,18 @@ set runtimepath^=~/.vim/bundle/ctrlp.vim
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " Linux/MacOSX
 
 " The Silver Searcher
-"if executable('ag')
-  "" Use ag over grep
-  "set grepprg=ag\ --nogroup\ --nocolor
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor
 
-  "" Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  "let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 
-  "" ag is fast enough that CtrlP doesn't need to cache
-  "let g:ctrlp_use_caching = 0
-"endif
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
 
-" bind \ (backward slash) to grep shortcut
+ "bind \ (backward slash) to grep shortcut
 "command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
 
 " toggle between buffers
@@ -320,3 +324,10 @@ nnoremap <Leader>gw :Gwrite<CR>
 nnoremap <Leader>gp :Git push<CR>
 " close buffer short cut
 nnoremap <leader>q :bd<CR>
+
+" vim multi select config
+let g:VM_maps = {}
+"let g:VM_maps['Find Under']         = '<C-l>' 
+let g:VM_leader = '-'
+"let g:VM_maps['Motion ,'] = ',,'
+"let g:VM_mouse_mappings = 1
