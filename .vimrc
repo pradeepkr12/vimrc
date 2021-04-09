@@ -5,44 +5,40 @@ filetype plugin on
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'JamshedVesuna/vim-markdown-preview'
 Plugin 'dkarter/bullets.vim'
-Plugin 'Vimjas/vim-python-pep8-indent'
 Plugin 'jeetsukumaran/vim-pythonsense'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'davidhalter/jedi-vim'
+"Plugin 'davidhalter/jedi-vim'
 Plugin 'mileszs/ack.vim'
 Plugin 'ervandew/supertab'
 Plugin 'jpalardy/vim-slime'
 Plugin 'scrooloose/nerdtree'
 Plugin 'vimwiki/vimwiki'
 Plugin 'haya14busa/incsearch.vim'
-Plugin 'crusoexia/vim-dracula'
-Plugin 'altercation/vim-colors-solarized'
-"Plugin 'vim-scripts/tComment'
-Plugin 'scrooloose/syntastic'
+"Plugin 'altercation/vim-colors-solarized'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'lygaret/autohighlight.vim'
 Plugin 'tpope/vim-surround'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'francoiscabrol/ranger.vim'
 "Plugin 'craigemery/vim-autotag'
-"Plugin 'vim-airline/vim-airline'
-"Plugin 'vim-airline/vim-airline-themes'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'majutsushi/tagbar'
-"Plugin 'python-mode/python-mode'
+Plugin 'python-mode/python-mode'
 Plugin 'heavenshell/vim-pydocstring'
 Plugin 'fs111/pydoc.vim'
 Plugin 'zivyangll/git-blame.vim'
 Plugin 'mg979/vim-visual-multi'
-"Plugin 'sheerun/vim-polyglot'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+
+call vundle#end()            " required
 
 " configurations
 let mapleader = ','
@@ -66,13 +62,12 @@ let g:jedi#usages_command = "<leader>n"
 let g:jedi#completions_command = "<C-Space>"
 let g:jedi#rename_command = "<leader>r"
 
-
 " theme
 set t_Co=256
 let g:solarized_termtrans = 1
 let g:solarized_termcolors=256
-"set background=dark
-"colorscheme solarized
+set background=dark
+colorscheme solarized
 
 " textwrap
 set tw=80
@@ -80,17 +75,7 @@ set fo+=t
 
 " pydocstring
 let g:pydocstring_formatter = 'numpy'
-" fix for jk not working
-if ! has('gui_running')
-  set ttimeoutlen=10
-  augroup FastEscape
-    autocmd!
-    au InsertEnter * set timeoutlen=0
-    au InsertLeave * set timeoutlen=1000
-  augroup END
-endif
 " All of your Plugins must be added before the following line
-call vundle#end()            " required
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
@@ -99,25 +84,7 @@ filetype plugin indent on    " required
 set encoding=utf-8
 
 syntax enable
-let g:ycm_python_binary_path = 'python'
 set clipboard=unnamed
-"easy motion 
-let g:EasyMotion_do_mapping = 0 " Disable default mappings
-
-" Jump to anywhere you want with minimal keystrokes, with just one key binding.
-" `s{char}{label}`
-nmap s <Plug>(easymotion-overwin-f)
-" or
-" `s{char}{char}{label}`
-" Need one more keystroke, but on average, it may be more comfortable.
-nmap s <Plug>(easymotion-overwin-f2)
-
-" Turn on case insensitive feature
-let g:EasyMotion_smartcase = 1
-
-" JK motions: Line motions
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
 " store backup and swp files in these dirs to not clutter working dir
 set backupdir=~/.vim/backup
 set directory=~/.vim/tmp
@@ -127,8 +94,7 @@ set mouse=a
 " General defaults
 set tabstop=4     " a tab is four spaces
 set softtabstop=4
-set backspace=indent,eol,start
-                  " allow backspacing over everything in insert mode
+set backspace=indent,eol,start " allow backspacing over everything in insert mode
 set autoindent    " always set autoindenting on
 set copyindent    " copy the previous indentation on autoindenting
 set shiftwidth=4  " number of spaces to use for autoindenting
@@ -141,53 +107,21 @@ set smarttab      " insert tabs on the start of a line according to shiftwidth, 
 set hlsearch      " highlight search terms
 set incsearch     " show search matches as you type
 set history=1000  " remember more commands and search history
-set undolevels=1000
-                  " use many muchos levels of undo
+set undolevels=1000 " use many muchos levels of undo
 set wildignore=*.swp,*.bak,*.pyc,*.class
 set title         " change the terminal's title
 set ruler         " show the cursor position all the time
-set pastetoggle=<F2>
-                  " toggle paste mode
+set pastetoggle=<F2>                  " toggle paste mode
 set list
-set listchars=tab:>.,trail:.,extends:#,nbsp:.
-                  " highlight whitespace
-nmap <silent> <Leader>/ :nohlsearch <CR>
-                  " unhighlight search
-set viminfo='20,\"50
-                  " Tell vim to remember certain things when we exit
+set listchars=tab:>.,trail:.,extends:#,nbsp:. " highlight whitespace
+nmap <silent> <Leader>/ :nohlsearch <CR>                  " unhighlight search
+set viminfo='20,\"50                  " Tell vim to remember certain things when we exit
 set hidden        " allow buffers to be hidden
 set wildmode=longest,list,full
 set wildmenu
 set directory=~/.vim/tmp
-let g:ycm_keep_logfiles = 1
-let g:ycm_log_level = 'debug'
-
-let g:vim_json_syntax_conceal = 0
-autocmd BufNewFile,BufRead *.json set ft=javascript
-
-" SyntasticCheck
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_python_checkers = ['flake8', 'pep8', 'pyflakes', 'pylint']
-let g:syntastic_python_flake8_args='--ignore=E502,E302,W0401'
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 2
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
 
 set noswapfile
-
-let g:airline#extensions#tabline#enabled = 1
-
-
-nnoremap <leader>rn :set relativenumber!<cr>
-nnoremap <leader>ev :split $MYVIMRC<cr>
-nnoremap <leader>sv :source $MYVIMRC<cr>
-inoremap jk <esc>
-inoremap JK <esc>
-imap jk <Esc>
 
 
 nmap H 0
@@ -195,7 +129,6 @@ nmap L $
 
 vmap H 0
 vmap L $
-
 
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 
@@ -271,11 +204,11 @@ vmap <F3> <C-f>
 " vim airline
 " Enable the list of buffers
 let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme='solarized'
 
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
 set tags=tags
-set guifont=Monaco:h14
 " ctags setting
 nnoremap <leader>. :CtrlPTag<cr>
 nnoremap <silent> <Leader>b :TagbarToggle<CR>
@@ -326,8 +259,9 @@ nnoremap <Leader>gp :Git push<CR>
 nnoremap <leader>q :bd<CR>
 
 " vim multi select config
-let g:VM_maps = {}
+"let g:VM_maps = {}
 "let g:VM_maps['Find Under']         = '<C-l>' 
 let g:VM_leader = '-'
 "let g:VM_maps['Motion ,'] = ',,'
 "let g:VM_mouse_mappings = 1
+"
