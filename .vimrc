@@ -15,13 +15,15 @@ Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
 "Plugin 'davidhalter/jedi-vim'
+Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plugin 'junegunn/fzf.vim'
 Plugin 'mileszs/ack.vim'
 Plugin 'ervandew/supertab'
 Plugin 'jpalardy/vim-slime'
 Plugin 'scrooloose/nerdtree'
 Plugin 'vimwiki/vimwiki'
 Plugin 'haya14busa/incsearch.vim'
-"Plugin 'altercation/vim-colors-solarized'
+Plugin 'altercation/vim-colors-solarized'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'lygaret/autohighlight.vim'
 Plugin 'tpope/vim-surround'
@@ -51,7 +53,7 @@ nnoremap <Leader>s :<C-u>call gitblame#echo()<CR>
 let g:jedi#auto_initialization = 0
 let g:jedi#auto_vim_configuration = 0
 let g:pymode_rope = 0
-let g:pymode_python = 'python3'
+let g:pymode_lint = 0
 
 let g:jedi#goto_command = "<leader>d"
 let g:jedi#goto_assignments_command = "<leader>g"
@@ -72,6 +74,7 @@ colorscheme solarized
 " textwrap
 set tw=80
 set fo+=t
+set wrap
 
 " pydocstring
 let g:pydocstring_formatter = 'numpy'
@@ -122,7 +125,7 @@ set wildmenu
 set directory=~/.vim/tmp
 
 set noswapfile
-
+set notagrelative "for python relative paths, useful in ctags
 
 nmap H 0
 nmap L $
@@ -145,6 +148,9 @@ if executable('ag')
   " ag is fast enough that CtrlP doesn't need to cache
   let g:ctrlp_use_caching = 0
 endif
+
+let g:ackprg = 'ag --vimgrep'
+
 
  "bind \ (backward slash) to grep shortcut
 "command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
@@ -264,4 +270,8 @@ nnoremap <leader>q :bd<CR>
 let g:VM_leader = '-'
 "let g:VM_maps['Motion ,'] = ',,'
 "let g:VM_mouse_mappings = 1
-"
+" fzf
+nnoremap <C-o> :GFiles<Cr>
+nnoremap <C-g> :Ag<Cr>
+nnoremap <Leader><C-F> :Files
+
